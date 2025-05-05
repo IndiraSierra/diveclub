@@ -1,0 +1,33 @@
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    container_name: dive_postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME:-dive_app}
+      POSTGRES_USER: ${DB_USER:-indira_sierra}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-Cadillac171217}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  app:
+    build: .
+    container_name: dive_app
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME:-dive_app}
+      - DB_USER=${DB_USER:-indira_sierra}
+      - DB_PASSWORD=${DB_PASSWORD:-tu_contraseña}
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:

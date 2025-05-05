@@ -1,0 +1,28 @@
+# Node.js dependencies
+node_modules
+npm-debug.log
+
+# Environment configuration
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs
+*.log
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Optional backup/config
+*.bak
+*.tmp
+
+# Ignore coverage, dist and build artifacts
+coverage/
+dist/
+build/
+
+# DB backups folder
+/Backup

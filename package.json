@@ -1,0 +1,33 @@
+{
+  "name": "diveclub",
+  "version": "1.0.0",
+  "description": "App for a Dive Club",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon --legacy-watch index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IndiraSierra/diveclub.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IndiraSierra/diveclub/issues"
+  },
+  "homepage": "https://github.com/IndiraSierra/diveclub#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "pg": "^8.15.6",
+    "pug": "^3.0.3",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

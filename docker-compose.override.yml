@@ -1,0 +1,27 @@
+services:
+  app:
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+    ports:
+      - "5000:5000"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: dive_pgadmin
+    restart: unless-stopped
+    ports:
+      - "8080:80"  # Puedes acceder desde localhost:8080
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    depends_on:
+      - postgres
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  pgadmin_data:
