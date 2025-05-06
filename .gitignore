@@ -25,4 +25,4 @@ dist/
 build/
 
 # DB backups folder
-/Backup
+Backup

@@ -10,10 +10,12 @@ services:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   app:
-    build: .
+    build:
+      dockerfile: Dockerfile
+    image: dive_app
     container_name: dive_app
     ports:
       - "5000:5000"
@@ -24,7 +26,7 @@ services:
       - DB_USER=${DB_USER:-indira_sierra}
       - DB_PASSWORD=${DB_PASSWORD:-tu_contraseña}
     volumes:
-      - .:/app
+      - ./backend:/app
       - /app/node_modules
     depends_on:
       - postgres
