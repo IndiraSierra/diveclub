@@ -291,6 +291,207 @@ INSERT INTO public.certification_equivalences (id, certifying_entity, category, 
 
 
 --
+-- Data for Name: country_codes; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (1, 'AF', 'Afghanistan', '+93', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (2, 'AL', 'Albania', '+355', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (3, 'DE', 'Germany', '+49', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (4, 'AD', 'Andorra', '+376', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (5, 'AO', 'Angola', '+244', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (6, 'AG', 'Antigua and Barbuda', '+1268', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (7, 'SA', 'Saudi Arabia', '+966', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (8, 'DZ', 'Algeria', '+213', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (9, 'AR', 'Argentina', '+54', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (10, 'AM', 'Armenia', '+374', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (11, 'AU', 'Australia', '+61', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (12, 'AT', 'Austria', '+43', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (13, 'AZ', 'Azerbaijan', '+994', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (14, 'BS', 'Bahamas', '+1242', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (15, 'BD', 'Bangladesh', '+880', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (16, 'BB', 'Barbados', '+1246', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (17, 'BH', 'Bahrain', '+973', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (18, 'BE', 'Belgium', '+32', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (19, 'BZ', 'Belize', '+501', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (20, 'BJ', 'Benin', '+229', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (21, 'BT', 'Bhutan', '+975', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (22, 'BY', 'Belarus', '+375', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (23, 'BO', 'Bolivia', '+591', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (24, 'BA', 'Bosnia and Herzegovina', '+387', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (25, 'BW', 'Botswana', '+267', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (26, 'BR', 'Brazil', '+55', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (27, 'BN', 'Brunei', '+673', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (28, 'BG', 'Bulgaria', '+359', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (29, 'BF', 'Burkina Faso', '+226', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (30, 'BI', 'Burundi', '+257', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (31, 'CV', 'Cabo Verde', '+238', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (32, 'KH', 'Cambodia', '+855', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (33, 'CM', 'Cameroon', '+237', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (34, 'CA', 'Canada', '+1', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (35, 'QA', 'Qatar', '+974', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (36, 'TD', 'Chad', '+235', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (37, 'CL', 'Chile', '+56', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (38, 'CN', 'China', '+86', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (39, 'CY', 'Cyprus', '+357', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (40, 'VA', 'Vatican City', '+379', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (41, 'CO', 'Colombia', '+57', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (42, 'KM', 'Comoros', '+269', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (43, 'KP', 'North Korea', '+850', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (44, 'KR', 'South Korea', '+82', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (45, 'CI', 'Ivory Coast', '+225', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (46, 'CR', 'Costa Rica', '+506', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (47, 'HR', 'Croatia', '+385', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (48, 'CU', 'Cuba', '+53', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (49, 'DK', 'Denmark', '+45', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (50, 'DM', 'Dominica', '+1767', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (51, 'EC', 'Ecuador', '+593', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (52, 'EG', 'Egypt', '+20', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (53, 'SV', 'El Salvador', '+503', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (54, 'AE', 'United Arab Emirates', '+971', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (55, 'ER', 'Eritrea', '+291', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (56, 'SK', 'Slovakia', '+421', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (57, 'SI', 'Slovenia', '+386', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (58, 'ES', 'Spain', '+34', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (59, 'US', 'United States', '+1', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (60, 'EE', 'Estonia', '+372', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (61, 'ET', 'Ethiopia', '+251', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (62, 'FJ', 'Fiji', '+679', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (63, 'PH', 'Philippines', '+63', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (64, 'FI', 'Finland', '+358', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (65, 'FR', 'France', '+33', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (66, 'GA', 'Gabon', '+241', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (67, 'GM', 'Gambia', '+220', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (68, 'GE', 'Georgia', '+995', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (69, 'GH', 'Ghana', '+233', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (70, 'GD', 'Grenada', '+1473', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (71, 'GR', 'Greece', '+30', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (72, 'GT', 'Guatemala', '+502', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (73, 'GN', 'Guinea', '+224', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (74, 'GQ', 'Equatorial Guinea', '+240', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (75, 'GW', 'Guinea-Bissau', '+245', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (76, 'GY', 'Guyana', '+592', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (77, 'HT', 'Haiti', '+509', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (78, 'HN', 'Honduras', '+504', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (79, 'HU', 'Hungary', '+36', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (80, 'IN', 'India', '+91', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (81, 'ID', 'Indonesia', '+62', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (82, 'IQ', 'Iraq', '+964', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (83, 'IR', 'Iran', '+98', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (84, 'IE', 'Ireland', '+353', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (85, 'IS', 'Iceland', '+354', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (86, 'MH', 'Marshall Islands', '+692', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (87, 'SB', 'Solomon Islands', '+677', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (88, 'IL', 'Israel', '+972', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (89, 'IT', 'Italy', '+39', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (90, 'JM', 'Jamaica', '+1876', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (91, 'JP', 'Japan', '+81', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (92, 'JO', 'Jordan', '+962', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (93, 'KZ', 'Kazakhstan', '+7', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (94, 'KE', 'Kenya', '+254', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (95, 'KG', 'Kyrgyzstan', '+996', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (96, 'KI', 'Kiribati', '+686', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (97, 'KW', 'Kuwait', '+965', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (98, 'LA', 'Laos', '+856', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (99, 'LS', 'Lesotho', '+266', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (100, 'LV', 'Latvia', '+371', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (101, 'LB', 'Lebanon', '+961', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (102, 'LR', 'Liberia', '+231', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (103, 'LY', 'Libya', '+218', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (104, 'LI', 'Liechtenstein', '+423', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (105, 'LT', 'Lithuania', '+370', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (106, 'LU', 'Luxembourg', '+352', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (107, 'MK', 'North Macedonia', '+389', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (108, 'MG', 'Madagascar', '+261', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (109, 'MY', 'Malaysia', '+60', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (110, 'MW', 'Malawi', '+265', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (111, 'MV', 'Maldives', '+960', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (112, 'ML', 'Mali', '+223', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (113, 'MT', 'Malta', '+356', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (114, 'MA', 'Morocco', '+212', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (115, 'MU', 'Mauritius', '+230', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (116, 'MR', 'Mauritania', '+222', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (117, 'MX', 'Mexico', '+52', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (118, 'FM', 'Micronesia', '+691', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (119, 'MD', 'Moldova', '+373', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (120, 'MC', 'Monaco', '+377', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (121, 'MN', 'Mongolia', '+976', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (122, 'ME', 'Montenegro', '+382', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (123, 'MZ', 'Mozambique', '+258', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (124, 'MM', 'Myanmar', '+95', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (125, 'NA', 'Namibia', '+264', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (126, 'NR', 'Nauru', '+674', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (127, 'NP', 'Nepal', '+977', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (128, 'NI', 'Nicaragua', '+505', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (129, 'NE', 'Niger', '+227', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (130, 'NG', 'Nigeria', '+234', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (131, 'NO', 'Norway', '+47', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (132, 'NZ', 'New Zealand', '+64', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (133, 'OM', 'Oman', '+968', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (134, 'NL', 'Netherlands', '+31', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (135, 'PK', 'Pakistan', '+92', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (136, 'PW', 'Palau', '+680', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (137, 'PA', 'Panama', '+507', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (138, 'PG', 'Papua New Guinea', '+675', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (139, 'PY', 'Paraguay', '+595', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (140, 'PE', 'Peru', '+51', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (141, 'PL', 'Poland', '+48', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (142, 'PT', 'Portugal', '+351', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (143, 'GB', 'United Kingdom', '+44', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (144, 'CF', 'Central African Republic', '+236', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (145, 'CZ', 'Czech Republic', '+420', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (146, 'CD', 'Democratic Republic of the Congo', '+243', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (147, 'DO', 'Dominican Republic', '+1809', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (148, 'CG', 'Republic of the Congo', '+242', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (149, 'RO', 'Romania', '+40', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (150, 'RW', 'Rwanda', '+250', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (151, 'RU', 'Russia', '+7', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (152, 'WS', 'Samoa', '+685', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (153, 'KN', 'Saint Kitts and Nevis', '+1869', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (154, 'SM', 'San Marino', '+378', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (155, 'VC', 'Saint Vincent and the Grenadines', '+1784', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (156, 'LC', 'Saint Lucia', '+1758', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (157, 'ST', 'Sao Tome and Principe', '+239', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (158, 'SN', 'Senegal', '+221', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (159, 'RS', 'Serbia', '+381', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (160, 'SC', 'Seychelles', '+248', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (161, 'SL', 'Sierra Leone', '+232', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (162, 'SG', 'Singapore', '+65', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (163, 'SY', 'Syria', '+963', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (164, 'SO', 'Somalia', '+252', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (165, 'LK', 'Sri Lanka', '+94', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (166, 'SZ', 'Eswatini', '+268', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (167, 'ZA', 'South Africa', '+27', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (168, 'SD', 'Sudan', '+249', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (169, 'SS', 'South Sudan', '+211', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (170, 'SE', 'Sweden', '+46', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (171, 'CH', 'Switzerland', '+41', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (172, 'SR', 'Suriname', '+597', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (173, 'TH', 'Thailand', '+66', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (174, 'TW', 'Taiwan', '+886', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (175, 'TZ', 'Tanzania', '+255', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (176, 'TJ', 'Tajikistan', '+992', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (177, 'TL', 'East Timor', '+670', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (178, 'TG', 'Togo', '+228', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (179, 'TO', 'Tonga', '+676', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (180, 'TT', 'Trinidad and Tobago', '+1868', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (181, 'TN', 'Tunisia', '+216', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (182, 'TM', 'Turkmenistan', '+993', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (183, 'TR', 'Turkey', '+90', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (184, 'TV', 'Tuvalu', '+688', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (185, 'UA', 'Ukraine', '+380', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (186, 'UG', 'Uganda', '+256', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (187, 'UY', 'Uruguay', '+598', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (188, 'UZ', 'Uzbekistan', '+998', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (189, 'VU', 'Vanuatu', '+678', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (190, 'VE', 'Venezuela', '+58', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (191, 'VN', 'Vietnam', '+84', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (192, 'YE', 'Yemen', '+967', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (193, 'DJ', 'Djibouti', '+253', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (194, 'ZM', 'Zambia', '+260', true);
+INSERT INTO public.country_codes (id, country_code, country_name, phone_code, active) VALUES (195, 'ZW', 'Zimbabwe', '+263', true);
+
+
+--
 -- Data for Name: course_enrollments; Type: TABLE DATA; Schema: public; Owner: -
 --
 
@@ -391,6 +592,7 @@ INSERT INTO public.master_tables_list (id, schema_name, table_name, created_at) 
 INSERT INTO public.master_tables_list (id, schema_name, table_name, created_at) VALUES (20, 'public', 'waitlist', '2025-04-27 16:55:01.727141');
 INSERT INTO public.master_tables_list (id, schema_name, table_name, created_at) VALUES (12, 'public', 'diver_specialities', '2025-04-27 16:55:01.727141');
 INSERT INTO public.master_tables_list (id, schema_name, table_name, created_at) VALUES (21, 'public', 'public.speciality_courses', '2025-04-28 02:56:30.819801');
+INSERT INTO public.master_tables_list (id, schema_name, table_name, created_at) VALUES (22, 'public', 'public.country_codes', '2025-05-07 12:59:51.05719');
 
 
 --
@@ -459,6 +661,13 @@ SELECT pg_catalog.setval('public.certification_equivalences_id_seq', 51, true);
 --
 
 SELECT pg_catalog.setval('public.certifying_entities_id_seq', 1, false);
+
+
+--
+-- Name: country_codes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.country_codes_id_seq', 195, true);
 
 
 --
@@ -542,7 +751,7 @@ SELECT pg_catalog.setval('public.instructor_levels_id_seq', 1, false);
 -- Name: master_tables_list_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.master_tables_list_id_seq', 21, true);
+SELECT pg_catalog.setval('public.master_tables_list_id_seq', 22, true);
 
 
 --

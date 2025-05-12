@@ -502,6 +502,39 @@ ALTER SEQUENCE public.certifying_entities_id_seq OWNED BY public.certifying_enti
 
 
 --
+-- Name: country_codes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.country_codes (
+    id integer NOT NULL,
+    country_code character varying(2) NOT NULL,
+    country_name character varying(50) NOT NULL,
+    phone_code character varying(10) NOT NULL,
+    active boolean DEFAULT true
+);
+
+
+--
+-- Name: country_codes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.country_codes_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: country_codes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.country_codes_id_seq OWNED BY public.country_codes.id;
+
+
+--
 -- Name: course_enrollments; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -697,7 +730,7 @@ CREATE TABLE public.dive_sites (
     kind_of_dive public.kind_of_dive_enum DEFAULT 'Wreck'::public.kind_of_dive_enum NOT NULL,
     dive_access public.dive_access_enum DEFAULT 'boat'::public.dive_access_enum NOT NULL,
     region character varying(50) NOT NULL,
-    country character varying(50) NOT NULL,
+    country integer NOT NULL,
     code character varying(30) NOT NULL
 );
 
@@ -1065,7 +1098,8 @@ CREATE TABLE public.users (
     credits integer DEFAULT 0 NOT NULL,
     code character varying(30) NOT NULL,
     total_dives integer DEFAULT 0 NOT NULL,
-    gender_id integer
+    gender_id integer NOT NULL,
+    country character varying(2)
 );
 
 
@@ -1148,6 +1182,13 @@ ALTER TABLE ONLY public.certification_equivalences ALTER COLUMN id SET DEFAULT n
 --
 
 ALTER TABLE ONLY public.certifying_entities ALTER COLUMN id SET DEFAULT nextval('public.certifying_entities_id_seq'::regclass);
+
+
+--
+-- Name: country_codes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.country_codes ALTER COLUMN id SET DEFAULT nextval('public.country_codes_id_seq'::regclass);
 
 
 --
@@ -1339,6 +1380,30 @@ ALTER TABLE ONLY public.certifying_entities
 
 ALTER TABLE ONLY public.certifying_entities
     ADD CONSTRAINT certifying_entities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: country_codes country_codes_country_code_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.country_codes
+    ADD CONSTRAINT country_codes_country_code_key UNIQUE (country_code);
+
+
+--
+-- Name: country_codes country_codes_country_name_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.country_codes
+    ADD CONSTRAINT country_codes_country_name_key UNIQUE (country_name);
+
+
+--
+-- Name: country_codes country_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.country_codes
+    ADD CONSTRAINT country_codes_pkey PRIMARY KEY (id);
 
 
 --
@@ -1661,6 +1726,13 @@ CREATE INDEX idx_certification_courses_composite ON public.certification_courses
 
 
 --
+-- Name: idx_country_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_country_code ON public.country_codes USING btree (country_code);
+
+
+--
 -- Name: idx_courses_course_date; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1668,10 +1740,31 @@ CREATE INDEX idx_courses_course_date ON public.courses USING btree (course_id, s
 
 
 --
+-- Name: idx_dive_sites_country; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_dive_sites_country ON public.dive_sites USING btree (country);
+
+
+--
+-- Name: idx_dive_sites_geo_location; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_dive_sites_geo_location ON public.dive_sites USING gist (geo_location);
+
+
+--
 -- Name: idx_dives_date; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX idx_dives_date ON public.dives USING btree (date);
+
+
+--
+-- Name: idx_phone_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_phone_code ON public.country_codes USING btree (phone_code);
 
 
 --
@@ -1853,6 +1946,14 @@ ALTER TABLE ONLY public.dives
 
 ALTER TABLE ONLY public.dives
     ADD CONSTRAINT fk_daylight FOREIGN KEY (day_light_id) REFERENCES public.event_categories(id) ON DELETE SET NULL;
+
+
+--
+-- Name: dive_sites fk_dive_sites_country; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.dive_sites
+    ADD CONSTRAINT fk_dive_sites_country FOREIGN KEY (country) REFERENCES public.country_codes(id);
 
 
 --
