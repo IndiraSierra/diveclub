@@ -1,5 +1,9 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db.config");
+import { Sequelize } from "sequelize";
+import { DataTypes } from "sequelize";
+import sequelize from "../config/db.config.js";
+
+//const { DataTypes } = require("sequelize");
+//const sequelize = require("../config/db.config");
 
 const User = sequelize.define("User", {
   id: {
@@ -194,3 +198,5 @@ const User = sequelize.define("User", {
 });
 
 module.exports = User;
+export default User;
+export { User };

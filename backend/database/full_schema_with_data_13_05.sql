@@ -110,6 +110,19 @@ $$;
 
 
 --
+-- Name: generate_log_code(integer, text, integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.generate_log_code(p_user_id integer, p_table text, p_target_id integer) RETURNS text
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    RETURN 'LOG-' || p_user_id || '-' || UPPER(p_table) || '-' || p_target_id || '-' || TO_CHAR(NOW(), 'YYYYMMDDHH24MI');
+END;
+$$;
+
+
+--
 -- Name: generate_review_code(integer, integer, date); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -200,6 +213,41 @@ BEGIN
 
     -- Construir el código
     RETURN 'WTL-' || user_id || '-' || dive_id || '-' || TO_CHAR(dive_date, 'YYYYMMDD');
+END;
+$$;
+
+
+--
+-- Name: log_action(integer, integer, text, integer, text, text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.log_action(p_user_id integer, p_action_type integer, p_target_table text, p_target_id integer, p_description text DEFAULT NULL::text, p_ip text DEFAULT NULL::text) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    v_code TEXT;
+BEGIN
+    v_code := generate_log_code(p_user_id, p_target_table, p_target_id);
+
+    INSERT INTO action_logs (
+        user_id,
+        action_type,
+        target_table,
+        target_id,
+        action_date,
+        description,
+        ip_address,
+        code
+    ) VALUES (
+        p_user_id,
+        p_action_type,
+        p_target_table,
+        p_target_id,
+        NOW(),
+        p_description,
+        p_ip,
+        v_code
+    );
 END;
 $$;
 
@@ -565,6 +613,455 @@ BEGIN
     RAISE EXCEPTION 'User cannot have both a diving level and an instructor level at the same time.';
   END IF;
   RETURN NEW;
+END;
+$$;
+
+
+--
+-- Name: trg_log_certification_courses_activity(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.trg_log_certification_courses_activity() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    v_user_id INT := COALESCE(NEW.created_by, OLD.created_by); -- Debe existir esta columna
+    v_action_type INT;
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'CREATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'certification_courses', NEW.id);
+
+    ELSIF TG_OP = 'UPDATE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'UPDATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'certification_courses', NEW.id);
+
+    ELSIF TG_OP = 'DELETE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'DELETE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'certification_courses', OLD.id);
+    END IF;
+
+    RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: trg_log_certification_equivalences_activity(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.trg_log_certification_equivalences_activity() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    v_user_id INT := COALESCE(NEW.created_by, OLD.created_by); -- Asegúrate de que este campo existe
+    v_action_type INT;
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'CREATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'certification_equivalences', NEW.id);
+
+    ELSIF TG_OP = 'UPDATE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'UPDATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'certification_equivalences', NEW.id);
+
+    ELSIF TG_OP = 'DELETE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'DELETE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'certification_equivalences', OLD.id);
+    END IF;
+
+    RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: trg_log_course_enrollments_activity(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.trg_log_course_enrollments_activity() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    v_user_id INT := COALESCE(NEW.student_id, OLD.student_id);
+    v_target_id INT := COALESCE(NEW.course_id, OLD.course_id);
+    v_action_type INT;
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'CREATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'course_enrollments', v_target_id);
+    
+    ELSIF TG_OP = 'UPDATE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'UPDATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'course_enrollments', v_target_id);
+    
+    ELSIF TG_OP = 'DELETE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'DELETE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'course_enrollments', v_target_id);
+    END IF;
+
+    RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: trg_log_courses_activity(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.trg_log_courses_activity() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    v_user_id INT := NEW.instructor_id;  -- quien crea o edita el curso
+    v_action_type INT;
+    v_target_id INT := COALESCE(NEW.id, OLD.id);
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'CREATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'courses', v_target_id);
+
+    ELSIF TG_OP = 'UPDATE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'UPDATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'courses', v_target_id);
+
+    ELSIF TG_OP = 'DELETE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'DELETE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'courses', v_target_id);
+    END IF;
+
+    RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: trg_log_deletions_activity(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.trg_log_deletions_activity() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    v_action_type INT;
+BEGIN
+    SELECT id INTO v_action_type
+    FROM event_categories
+    WHERE category_name = 'Log Action' AND value_name = 'DELETE'
+    LIMIT 1;
+
+    PERFORM log_action(
+        NEW.deleted_by,
+        v_action_type,
+        NEW.deleted_table,
+        NEW.deleted_id,
+        'Registro marcado como eliminado.',
+        NULL
+    );
+
+    RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: trg_log_dive_cancellations_activity(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.trg_log_dive_cancellations_activity() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    v_user_id INT := NEW.canceled_by; -- o OLD si es DELETE
+    v_action_type INT;
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        SELECT id INTO v_action_type 
+        FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'CREATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'dive_cancellations', NEW.id);
+
+    ELSIF TG_OP = 'UPDATE' THEN
+        SELECT id INTO v_action_type 
+        FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'UPDATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'dive_cancellations', NEW.id);
+
+    ELSIF TG_OP = 'DELETE' THEN
+        SELECT id INTO v_action_type 
+        FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'DELETE' LIMIT 1;
+
+        PERFORM log_action(OLD.canceled_by, v_action_type, 'dive_cancellations', OLD.id);
+    END IF;
+
+    RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: trg_log_dive_registrations_activity(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.trg_log_dive_registrations_activity() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    v_action_type INT;
+    v_user_id INT := COALESCE(NEW.user_id, OLD.user_id);
+    v_target_id INT := COALESCE(NEW.id, OLD.id);
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'ENROLLMENT' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'dive_registrations', v_target_id);
+
+    ELSIF TG_OP = 'DELETE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'DELETE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'dive_registrations', v_target_id);
+    END IF;
+
+    RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: trg_log_dive_sites_activity(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.trg_log_dive_sites_activity() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    v_user_id INT := COALESCE(NEW.created_by, OLD.created_by); -- Suponemos que esta columna existe
+    v_action_type INT;
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'CREATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'dive_sites', NEW.id);
+
+    ELSIF TG_OP = 'UPDATE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'UPDATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'dive_sites', NEW.id);
+
+    ELSIF TG_OP = 'DELETE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'DELETE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'dive_sites', OLD.id);
+    END IF;
+
+    RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: trg_log_dives_activity(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.trg_log_dives_activity() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    v_user_id INT := NEW.created_by; -- o la columna correspondiente
+    v_action_type INT;
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'CREATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'dives', NEW.id);
+    ELSIF TG_OP = 'UPDATE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'UPDATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'dives', NEW.id);
+    ELSIF TG_OP = 'DELETE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'DELETE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'dives', OLD.id);
+    END IF;
+    RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: trg_log_reviews_activity(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.trg_log_reviews_activity() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    v_user_id INT := NEW.user_id; -- o OLD en DELETE
+    v_action_type INT;
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        SELECT id INTO v_action_type 
+        FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'CREATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'reviews', NEW.id);
+
+    ELSIF TG_OP = 'UPDATE' THEN
+        SELECT id INTO v_action_type 
+        FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'UPDATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'reviews', NEW.id);
+
+    ELSIF TG_OP = 'DELETE' THEN
+        SELECT id INTO v_action_type 
+        FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'DELETE' LIMIT 1;
+
+        PERFORM log_action(OLD.user_id, v_action_type, 'reviews', OLD.id);
+    END IF;
+
+    RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: trg_log_speciality_courses_activity(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.trg_log_speciality_courses_activity() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    v_user_id INT := COALESCE(NEW.created_by, OLD.created_by); -- Debe existir esta columna en la tabla
+    v_action_type INT;
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'CREATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'speciality_courses', NEW.id);
+
+    ELSIF TG_OP = 'UPDATE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'UPDATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'speciality_courses', NEW.id);
+
+    ELSIF TG_OP = 'DELETE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'DELETE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'speciality_courses', OLD.id);
+    END IF;
+
+    RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: trg_log_users_activity(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.trg_log_users_activity() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    v_user_id INT := COALESCE(NEW.id, OLD.id); -- El usuario es el propio objeto de la acción
+    v_action_type INT;
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'CREATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'users', NEW.id);
+
+    ELSIF TG_OP = 'UPDATE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'UPDATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'users', NEW.id);
+
+    ELSIF TG_OP = 'DELETE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'DELETE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'users', OLD.id);
+    END IF;
+
+    RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: trg_log_waitlist_activity(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.trg_log_waitlist_activity() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    v_user_id INT := COALESCE(NEW.user_id, OLD.user_id);
+    v_action_type INT;
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'CREATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'waitlist', NEW.id);
+
+    ELSIF TG_OP = 'UPDATE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'UPDATE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'waitlist', NEW.id);
+
+    ELSIF TG_OP = 'DELETE' THEN
+        SELECT id INTO v_action_type FROM event_categories 
+        WHERE category_name = 'Log Action' AND value_name = 'DELETE' LIMIT 1;
+
+        PERFORM log_action(v_user_id, v_action_type, 'waitlist', OLD.id);
+    END IF;
+
+    RETURN NULL;
 END;
 $$;
 
@@ -1849,29 +2346,66 @@ INSERT INTO cron.job (jobid, schedule, command, nodename, nodeport, database, us
 -- Data for Name: job_run_details; Type: TABLE DATA; Schema: cron; Owner: -
 --
 
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 54, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 1, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 22, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 2, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 3, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 35, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 4, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 23, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 5, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 6, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 7, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 24, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 8, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 9, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 43, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 10, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 25, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 11, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 12, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 36, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 13, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 26, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 14, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 15, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 16, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 27, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 17, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 18, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 19, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 28, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 20, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 21, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 37, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 29, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 30, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 48, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 31, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 38, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 32, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 33, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 44, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 34, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 39, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 40, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 41, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 45, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 42, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 51, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 46, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 49, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 47, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 50, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 53, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 52, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 55, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 56, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 57, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 58, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 59, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 60, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
 
 
 --
@@ -2531,7 +3065,7 @@ SELECT pg_catalog.setval('cron.jobid_seq', 2, true);
 -- Name: runid_seq; Type: SEQUENCE SET; Schema: cron; Owner: -
 --
 
-SELECT pg_catalog.setval('cron.runid_seq', 23, true);
+SELECT pg_catalog.setval('cron.runid_seq', 60, true);
 
 
 --
@@ -3105,6 +3639,13 @@ ALTER TABLE ONLY public.waitlist
 
 
 --
+-- Name: idx_action_logs_dates; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_action_logs_dates ON public.action_logs USING btree (action_date, user_id);
+
+
+--
 -- Name: idx_action_logs_user_date; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3175,10 +3716,24 @@ CREATE INDEX idx_dives_date ON public.dives USING btree (date);
 
 
 --
+-- Name: idx_dives_date_status; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_dives_date_status ON public.dives USING btree (date, status);
+
+
+--
 -- Name: idx_dives_day_light; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX idx_dives_day_light ON public.dives USING btree (day_light_id);
+
+
+--
+-- Name: idx_dives_site_status; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_dives_site_status ON public.dives USING btree (id_site, status);
 
 
 --
@@ -3210,6 +3765,13 @@ CREATE INDEX idx_phone_code ON public.country_codes USING btree (phone_code);
 
 
 --
+-- Name: idx_registrations_composite; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_registrations_composite ON public.dive_registrations USING btree (dive_id, user_id);
+
+
+--
 -- Name: idx_reviews_dive_user; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3231,10 +3793,31 @@ CREATE INDEX idx_users_active_role ON public.users USING btree (is_active, role)
 
 
 --
+-- Name: idx_users_activity; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_users_activity ON public.users USING btree (is_active, registration_date);
+
+
+--
+-- Name: idx_users_credentials; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_users_credentials ON public.users USING btree (lower((email)::text), lower((username)::text));
+
+
+--
 -- Name: idx_waitlist_dive_status; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX idx_waitlist_dive_status ON public.waitlist USING btree (dive_id, status_id);
+
+
+--
+-- Name: idx_waitlist_priority; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_waitlist_priority ON public.waitlist USING btree (dive_id, listed_date);
 
 
 --
@@ -3263,6 +3846,97 @@ CREATE TRIGGER trg_generate_user_code BEFORE INSERT ON public.users FOR EACH ROW
 --
 
 CREATE TRIGGER trg_generate_waitlist_code BEFORE INSERT ON public.waitlist FOR EACH ROW EXECUTE FUNCTION public.set_waitlist_code();
+
+
+--
+-- Name: certification_courses trg_log_certification_courses_activity; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_log_certification_courses_activity AFTER INSERT OR DELETE OR UPDATE ON public.certification_courses FOR EACH ROW EXECUTE FUNCTION public.trg_log_certification_courses_activity();
+
+
+--
+-- Name: certification_equivalences trg_log_certification_equivalences_activity; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_log_certification_equivalences_activity AFTER INSERT OR DELETE OR UPDATE ON public.certification_equivalences FOR EACH ROW EXECUTE FUNCTION public.trg_log_certification_equivalences_activity();
+
+
+--
+-- Name: course_enrollments trg_log_course_enrollments_activity; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_log_course_enrollments_activity AFTER INSERT OR DELETE OR UPDATE ON public.course_enrollments FOR EACH ROW EXECUTE FUNCTION public.trg_log_course_enrollments_activity();
+
+
+--
+-- Name: courses trg_log_courses_activity; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_log_courses_activity AFTER INSERT OR DELETE OR UPDATE ON public.courses FOR EACH ROW EXECUTE FUNCTION public.trg_log_courses_activity();
+
+
+--
+-- Name: deletions trg_log_deletions_activity; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_log_deletions_activity AFTER INSERT ON public.deletions FOR EACH ROW EXECUTE FUNCTION public.trg_log_deletions_activity();
+
+
+--
+-- Name: dive_cancellations trg_log_dive_cancellations_activity; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_log_dive_cancellations_activity AFTER INSERT OR DELETE OR UPDATE ON public.dive_cancellations FOR EACH ROW EXECUTE FUNCTION public.trg_log_dive_cancellations_activity();
+
+
+--
+-- Name: dive_registrations trg_log_dive_registrations_activity; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_log_dive_registrations_activity AFTER INSERT OR DELETE ON public.dive_registrations FOR EACH ROW EXECUTE FUNCTION public.trg_log_dive_registrations_activity();
+
+
+--
+-- Name: dive_sites trg_log_dive_sites_activity; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_log_dive_sites_activity AFTER INSERT OR DELETE OR UPDATE ON public.dive_sites FOR EACH ROW EXECUTE FUNCTION public.trg_log_dive_sites_activity();
+
+
+--
+-- Name: dives trg_log_on_dives; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_log_on_dives AFTER INSERT OR DELETE OR UPDATE ON public.dives FOR EACH ROW EXECUTE FUNCTION public.trg_log_dives_activity();
+
+
+--
+-- Name: reviews trg_log_reviews_activity; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_log_reviews_activity AFTER INSERT OR DELETE OR UPDATE ON public.reviews FOR EACH ROW EXECUTE FUNCTION public.trg_log_reviews_activity();
+
+
+--
+-- Name: speciality_courses trg_log_speciality_courses_activity; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_log_speciality_courses_activity AFTER INSERT OR DELETE OR UPDATE ON public.speciality_courses FOR EACH ROW EXECUTE FUNCTION public.trg_log_speciality_courses_activity();
+
+
+--
+-- Name: users trg_log_users_activity; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_log_users_activity AFTER INSERT OR DELETE OR UPDATE ON public.users FOR EACH ROW EXECUTE FUNCTION public.trg_log_users_activity();
+
+
+--
+-- Name: waitlist trg_log_waitlist_activity; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_log_waitlist_activity AFTER INSERT OR DELETE OR UPDATE ON public.waitlist FOR EACH ROW EXECUTE FUNCTION public.trg_log_waitlist_activity();
 
 
 --
