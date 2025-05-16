@@ -1,6 +1,8 @@
 services:
   postgres:
-    image: postgis/postgis:16-3.4
+    build:
+      context: ./database
+    image: dive_postgres
     container_name: dive_postgres
     environment:
       POSTGRES_DB: ${DB_NAME:-dive_app}
@@ -10,7 +12,7 @@ services:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./database/full_schema_with_data_13_05.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./database/full_schema_with_data.sql:/docker-entrypoint-initdb.d/init.sql
 
   app:
     build:

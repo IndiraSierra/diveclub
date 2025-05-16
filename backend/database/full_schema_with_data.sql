@@ -2117,7 +2117,7 @@ CREATE TABLE public.users (
     instructor_level integer,
     federation_license character varying(20) NOT NULL,
     insurance boolean DEFAULT false,
-    insurance_policy character varying(50) NOT NULL,
+    insurance_policy character varying(50),
     registration_date timestamp without time zone DEFAULT now() NOT NULL,
     is_active boolean DEFAULT true NOT NULL,
     total_dives integer DEFAULT 0 NOT NULL,
@@ -2406,6 +2406,75 @@ INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, com
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 58, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 59, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
 INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 60, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 61, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 82, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 62, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 63, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 95, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 64, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 83, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 65, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 66, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 67, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 84, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 68, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 69, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 115, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 70, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 85, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 71, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 72, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 96, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 73, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 86, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 74, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 75, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 76, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 87, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 77, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 78, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 104, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 79, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 88, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 80, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 81, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 97, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 89, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 90, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 98, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 91, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 92, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 109, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 93, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 99, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 94, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 105, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 100, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 101, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 106, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 102, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 103, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 112, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 107, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 110, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 108, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 111, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 114, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 113, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 116, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 117, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 118, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 119, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 120, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 121, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 122, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 123, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 124, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 125, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 126, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 127, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (2, 128, NULL, 'dive_app', 'postgres', 'SELECT update_course_status();', 'failed', 'connection failed', NULL, NULL);
+INSERT INTO cron.job_run_details (jobid, runid, job_pid, database, username, command, status, return_message, start_time, end_time) VALUES (1, 129, NULL, 'dive_app', 'postgres', 'SELECT update_dive_status();', 'failed', 'connection failed', NULL, NULL);
 
 
 --
@@ -3065,7 +3134,7 @@ SELECT pg_catalog.setval('cron.jobid_seq', 2, true);
 -- Name: runid_seq; Type: SEQUENCE SET; Schema: cron; Owner: -
 --
 
-SELECT pg_catalog.setval('cron.runid_seq', 60, true);
+SELECT pg_catalog.setval('cron.runid_seq', 129, true);
 
 
 --
@@ -3818,6 +3887,13 @@ CREATE INDEX idx_waitlist_dive_status ON public.waitlist USING btree (dive_id, s
 --
 
 CREATE INDEX idx_waitlist_priority ON public.waitlist USING btree (dive_id, listed_date);
+
+
+--
+-- Name: users_insurance_policy_unique; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX users_insurance_policy_unique ON public.users USING btree (insurance_policy) WHERE (insurance_policy IS NOT NULL);
 
 
 --
