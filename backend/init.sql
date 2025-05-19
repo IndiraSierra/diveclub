@@ -16,43 +16,47 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+DO
+$$
+BEGIN
+   IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'postgres') THEN
+      CREATE ROLE postgres LOGIN SUPERUSER CREATEDB CREATEROLE INHERIT;
+   END IF;
+END
+$$;
+
 --
  --Name: pg_cron; Type: EXTENSION; Schema: -; Owner: -
 --
 
 CREATE EXTENSION IF NOT EXISTS pg_cron WITH SCHEMA pg_catalog;
 
-
---
- Name: EXTENSION pg_cron; Type: COMMENT; Schema: -; Owner: -
---
-
 COMMENT ON EXTENSION pg_cron IS 'Job scheduler for PostgreSQL';
 
 
 --
- Name: public; Type: SCHEMA; Schema: -; Owner: -
+ --Name: public; Type: SCHEMA; Schema: -; Owner: -
 --
 
 -- *not* creating schema, since initdb creates it
 
 
 --
- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: -
+ --Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: -
 --
 
 COMMENT ON SCHEMA public IS '';
 
 
 --
- Name: topology; Type: SCHEMA; Schema: -; Owner: -
+ --Name: topology; Type: SCHEMA; Schema: -; Owner: -
 --
 
 CREATE SCHEMA IF NOT EXISTS topology;
 
 
 --
- Name: SCHEMA topology; Type: COMMENT; Schema: -; Owner: -
+ --Name: SCHEMA topology; Type: COMMENT; Schema: -; Owner: -
 --
 
 COMMENT ON SCHEMA topology IS 'PostGIS Topology schema';
